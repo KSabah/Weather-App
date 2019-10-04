@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>Weather App - Internet Apps 1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"> </script>
+</head>
+<body>
+    <div class="jumbotron" style="padding:40px;">
+        <div style="margin:100px;">
+            <h2>Weather Application</h2>
+            <h4>Enter the name of the city, and I'll provide the weather forecast for it over the next few days</h4>
+            <div id="app">
+                <input v-model="message" placeholder="Enter a city">
+                <p> City is: {{message}} </p>
+            </div>
+            <script>
+                var app = new Vue({
+                    el: '#app',
+                    data: {
+                        message: ''
+                    }
+                })
+            </script>
+        </div>
+</body>
+
+</html>
