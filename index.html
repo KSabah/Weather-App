@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <title>Weather App - Internet Apps 1</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -7,46 +8,32 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"> </script>
 </head>
+
 <body>
     <div class="jumbotron" style="padding:40px;">
         <div style="margin:100px;">
             <h2>Weather Application</h2>
             <h4>Enter the name of the city, and I'll provide the weather forecast for it over the next few days</h4>
-            <div id="text">
+            <div id="button">
                 <input v-model="message" placeholder="Enter a city">
+                <button type="button" v-on:click="GetWeather(message)">Get Weather</button>
+                <p> {{ val }} </p>
             </div>
             <script>
-                var text = new Vue({
-                    el: '#text',
+                var button = new Vue({
+                    el: '#button',
                     data: {
-                        message: ''
-                    }
-                });
-            </script>
-            <div id="button">
-                    <button type = "button" v-on:click="GetWeather">Get Weather</button>
-                    <p> {{ val }} </p>
-                </div>
-                <script>
-                    var button = new Vue({
-                        el: '#button',
-                        data: {
-                            text : text,
-                            val : ''
-                        },
-                        methods: {
-                            GetWeather: function(){
-                                if(text.message)
-                                    return this.val = ("You asked for the weather in " + text.message)
-                                else this.val = "You need to enter a city"
-                            }
-                        },
-                        watch: {
-                            "text.message" : text.message
+                        val: ''
+                    },
+                    methods: {
+                        GetWeather: function (message) {
+                            if (message)
+                                return this.val = ("Getting the weather in " + message)
+                            else this.val = "You need to enter a city"
                         }
-
-                    })
-                </script>
+                    },
+                })
+            </script>
         </div>
 </body>
 
