@@ -12,18 +12,39 @@
         <div style="margin:100px;">
             <h2>Weather Application</h2>
             <h4>Enter the name of the city, and I'll provide the weather forecast for it over the next few days</h4>
-            <div id="app">
+            <div id="text">
                 <input v-model="message" placeholder="Enter a city">
-                <p> City is: {{message}} </p>
             </div>
             <script>
-                var app = new Vue({
-                    el: '#app',
+                var text = new Vue({
+                    el: '#text',
                     data: {
                         message: ''
                     }
-                })
+                });
             </script>
+            <div id="button">
+                    <button type = "button" v-on:click="GetWeather">Get Weather</button>
+                    <p> You asked for the weather in: {{city}} </p>
+                </div>
+                <script>
+                    var button = new Vue({
+                        el: '#button',
+                        data: {
+                            text : text,
+                            city : ''
+                        },
+                        methods: {
+                            GetWeather: function(){
+                                this.city = text.message
+                            }
+                        },
+                        watch: {
+                            "text.message" : text.message
+                        }
+
+                    })
+                </script>
         </div>
 </body>
 
