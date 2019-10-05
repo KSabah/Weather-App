@@ -14,5 +14,5 @@ app.post('/', function (req, res) {
   })
 
 app.listen(process.env.port || portnum);
-console.log('Listening on port',portnum,'!');
+console.log('Listening on port', portnum);
 
