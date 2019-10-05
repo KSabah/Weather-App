@@ -25,18 +25,20 @@
             </script>
             <div id="button">
                     <button type = "button" v-on:click="GetWeather">Get Weather</button>
-                    <p> You asked for the weather in: {{city}} </p>
+                    <p> {{ val }} </p>
                 </div>
                 <script>
                     var button = new Vue({
                         el: '#button',
                         data: {
                             text : text,
-                            city : ''
+                            val : ''
                         },
                         methods: {
                             GetWeather: function(){
-                                this.city = text.message
+                                if(text.message)
+                                    return this.val = ("You asked for the weather in " + text.message)
+                                else this.val = "You need to enter a city"
                             }
                         },
                         watch: {
