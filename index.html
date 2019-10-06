@@ -17,19 +17,19 @@
             <div id="button">
                 <input v-model="message" placeholder="Enter a city">
                 <button type="button" v-on:click="GetWeather(message)">Get Weather</button>
-                <p> {{ val }} </p>
+                <p> {{ city }} </p>
             </div>
             <script>
                 var button = new Vue({
                     el: '#button',
                     data: {
-                        val: ''
+                        city: ''
                     },
                     methods: {
                         GetWeather: function (message) {
                             if (message) {
                                 console.log("GetWeather called")
-                                //Send the city name to the Server via our route
+                                //Send the city name as json to the Server via our route
                                 const data = { message };
                                 const options = {
                                     method: 'POST',
@@ -40,10 +40,12 @@
                                 }
                                 let prom = fetch('/weather', options)
                                 prom.then (response => response.json()).then(response =>{
-                                     this.val = response.city
+                                    if (response.weather){
+                                        this.city = ('The weather in '+message+', '+response.country+' is '+response.weather)}
+                                    else this.city = "Could not find weather for "+message
                                     })
                             }
-                            else this.val = "You need to enter a city"
+                            else this.city = "You need to enter a city"
                         }
                     },
                 })
