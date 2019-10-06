@@ -27,8 +27,22 @@
                     },
                     methods: {
                         GetWeather: function (message) {
-                            if (message)
-                                return this.val = ("Getting the weather in " + message)
+                            if (message) {
+                                console.log("GetWeather called")
+                                //Send the city name to the Server via our route
+                                const data = { message };
+                                const options = {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type' : 'application/json'
+                                    },
+                                    body: JSON.stringify(data)
+                                }
+                                let prom = fetch('/weather', options)
+                                prom.then (response => response.json()).then(response =>{
+                                     this.val = response.city
+                                    })
+                            }
                             else this.val = "You need to enter a city"
                         }
                     },
