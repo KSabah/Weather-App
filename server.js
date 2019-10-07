@@ -33,10 +33,24 @@ app.post('/weather', (req, res) => {
       else {
         let weatherval = data.weather[0]['description']
         let countryval = data.sys.country
+        var rainval = null
+        if (data.weather[0]['main'] == 'Rain'){
+          rainval = data.weather[0]['main']
+        }
+        let tempval = data.main.temp
+        let windval = data.wind.speed
+        var avgrainfallval = null
+        if (data.rain = 'undefined') avgrainfallval = null
+        else if (data.rain['3h']) avgrainfallval = data.rain['3h']
+        else if (data.rain['5h']) avgrainfallval = data.rain['5h']
         res.json({
           status: 'Success',
           weather: weatherval,
-          country: countryval
+          country: countryval,
+          rain: rainval,
+          temp: tempval,
+          wind: windval,
+          avgrainfall : avgrainfallval
         })
       }
     }

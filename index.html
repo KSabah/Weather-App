@@ -13,23 +13,41 @@
     <div class="jumbotron" style="padding:40px;">
         <div style="margin:100px;">
             <h2>Weather Application</h2>
-            <h4>Enter the name of the city, and I'll provide the weather forecast for it over the next few days</h4>
+            <h4>Enter the name of a city, and I'll provide the weather forecast for it over the next few days</h4>
             <div id="button">
                 <input v-model="message" placeholder="Enter a city">
                 <button type="button" v-on:click="GetWeather(message)">Get Weather</button>
-                <p> {{ city }} </p>
+                <div style="font-size:20px;"> {{ city }} {{ rain }} {{ temp }}</div>
+             
+                <br>
+                <table style="width:100%">
+                    <tr>
+                        <th>Average Temperature</th>
+                        <th>Average Windspeed</th>
+                        <th>Average Rainfall</th>
+                    </tr>
+                    <tr>
+                        <td>{{ avgtemp }}</td>
+                        <td>{{ wind }}</td>
+                        <td>{{ rainfall }}</td>
+                </table>
             </div>
             <script>
                 var button = new Vue({
                     el: '#button',
                     data: {
-                        city: ''
+                        city: '',
+                        rain: '',
+                        temp: '',
+                        avgtemp: '',
+                        wind: '',
+                        rainfall: ''
+
                     },
                     methods: {
                         GetWeather: function (message) {
                             if (message) {
                                 console.log("GetWeather called")
-                                //Send the city name as json to the Server via our route
                                 const data = { message };
                                 const options = {
                                     method: 'POST',
@@ -41,11 +59,42 @@
                                 let prom = fetch('/weather', options)
                                 prom.then (response => response.json()).then(response =>{
                                     if (response.weather){
-                                        this.city = ('The weather in '+message+', '+response.country+' is '+response.weather)}
-                                    else this.city = "Could not find weather for "+message
-                                    })
+                                        this.city = ('In '+message+', '+response.country+ ' there is '+response.weather+'.')
+                                        if (response.rain){
+                                            this.rain = 'You should pack an umbrella,' 
+                                                            +' there is rain forecast over the next few days!'
+                                        }
+                                        if (response.temp <= 10)
+                                            this.temp = 'Better pack some warm clothes, it\'s gonna be cold.'
+                                        else if (response.temp > 10 && response.temp < 20)
+                                            this.temp = 'It\'s pretty warm, so pack light!'
+                                        else this.temp = 'Remember to pack your shorts, it\'s gonna be hot!' 
+
+                                        this.avgtemp = response.temp+'°C'
+                                        this.wind = response.wind+' m/s'
+                                        if (response.avgrainfall) this.rainfall = response.avgrainfall+'mm'
+                                        else this.rainfall = 'No average rainfall estimate available.'
+
+                                    }
+
+                                    else {
+                                        this.city = "Could not find weather for "+message
+                                        this.rain = null
+                                        this.temp = null
+                                        this.avgtemp = null
+                                        this.wind = null
+                                        this.rainfall = null
+                                    }
+                                })
                             }
-                            else this.city = "You need to enter a city"
+                            else {
+                                this.city = "You need to enter a city"
+                                this.rain = null
+                                this.temp = null
+                                this.avgtemp = null
+                                this.wind = null
+                                this.rainfall = null
+                            }
                         }
                     },
                 })
